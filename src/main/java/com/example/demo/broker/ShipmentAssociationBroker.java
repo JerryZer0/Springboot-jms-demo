@@ -20,15 +20,15 @@ public class ShipmentAssociationBroker {
     @Resource
     private MessageSender messageSender;
 
-    @JmsListener(destination = "queueName", containerFactory = "queueListenerFactory", concurrency = "10")
+    @JmsListener(destination = "Queue", containerFactory = "queueListenerFactory", concurrency = "10")
     public void processMessage(TextMessage originalMessage) throws SolaceBrokerException {
         try {
             if (originalMessage.getText() == null) {
                 return;
             }
             String incomingMessageJson = originalMessage.getText();
-
-            messageSender.sendMessageToTopic("topicName", incomingMessageJson);
+            System.out.println(incomingMessageJson);
+//            messageSender.sendMessageToTopic("topicName", incomingMessageJson);
         } catch (Exception e) {
             throw new SolaceBrokerException(e, originalMessage);
         }
